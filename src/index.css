@@ -1,13 +1,74 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.builder {
+	width: 50%;
+	margin: 20px auto 0 auto;
+}
+.builder .title {
+	text-align: center;
+	margin-bottom: 20px;
+}
+.builder .form .fields {
+	display: flex;
+	justify-content: space-between;
+}
+.builder .form .fields input {
+	width: 120px;
+	padding: 0 10px;
+}
+.builder .form .btn {
+	display: block;
+	margin: 0 auto;
+	background-color: aqua;
+	border: 20px;
+	font-weight: bold;
+	font-style: 18px;
+}
+.matrix-table {
+	width: 50%;
+	margin: 40px auto 60px auto;
+}
+.bold {
+	font-weight: bold;
+}
+.matrix {
+	width: 60%;
+	margin: 30px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.matrix-btn {
+	background-color: yellow;
+	color: #26a69a;
+	border: none;
+	border-radius: 20px;
+	padding: 10px;
+	width: 150px;
+	margin: 20px auto;
+	display: block;
+}
+.matrix-btn:hover {
+	cursor: pointer;
+	background-color: red;
+	color: black;
+}
+.black-aqua {
+	background-color: #31a59e;
+	color: white;
+}
+.aqua {
+	background-color: #61dafb;
+	margin-right: 5px;
+	color: #0f4d6b;
 }
