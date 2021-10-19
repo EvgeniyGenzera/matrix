@@ -3,7 +3,7 @@ import { Navbar } from './components/navbar';
 import { Builder } from './components/builder';
 import { Matrix } from './components/matrix';
 
-function App() {
+const App: React.FC = () => {
 	return (
 		<>
 			<Navbar />
@@ -11,6 +11,6 @@ function App() {
 			<Matrix />
 		</>
 	);
-}
+};
 
 export default App;

@@ -33,5 +33,5 @@
 			}
 		}
 	},
-	"plugins": ["import", "prettier"]
+    "plugins": ["import", "@typescript-eslint", "prettier"]
 }
