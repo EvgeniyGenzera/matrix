@@ -49,7 +49,7 @@ export const Matrix: React.FC = () => (
 				</ul>
 			</div>
 		</div> */}
-		<div className='matrix'>
+		<div className="matrix">
 			<ul>
 				<li>№</li>
 				<li>1</li>
@@ -66,7 +66,7 @@ export const Matrix: React.FC = () => (
 				<li>653</li>
 				<li>764</li>
 			</ul>
-      <ul>
+			<ul>
 				<li>2</li>
 				<li>642</li>
 				<li>233</li>
@@ -74,7 +74,7 @@ export const Matrix: React.FC = () => (
 				<li>653</li>
 				<li>764</li>
 			</ul>
-      <ul>
+			<ul>
 				<li>3</li>
 				<li>642</li>
 				<li>233</li>
@@ -82,7 +82,7 @@ export const Matrix: React.FC = () => (
 				<li>653</li>
 				<li>764</li>
 			</ul>
-      <ul>
+			<ul>
 				<li>Sum</li>
 				<li>642</li>
 				<li>233</li>
