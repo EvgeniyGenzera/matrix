@@ -5,31 +5,31 @@
 		text-align: center;
 		margin-bottom: 20px;
 	}
-	&__form {
-		&__fields {
-			display: flex;
-			justify-content: space-between;
-			&__item {
-				display: block;
-				max-width: 120px;
-				padding: 0 10px !important;
-			}
-		}
-		&__btn {
-			display: block;
-			margin: 0 auto;
-			padding: 10px 20px;
-			background-color: aqua;
-			border: 20px;
-			font-weight: bold;
-			font-style: 18px;
-			&:hover {
-				cursor: pointer;
-			}
+
+}
+.form {
+	&__btn {
+		display: block;
+		margin: 0 auto;
+		padding: 10px 20px;
+		background-color: aqua;
+		border: 20px;
+		font-weight: bold;
+		font-style: 18px;
+		&:hover {
+			cursor: pointer;
 		}
 	}
 }
-
+.fields {
+	display: flex;
+	justify-content: space-between;
+	&__item {
+		display: block;
+		max-width: 120px;
+		padding: 0 10px !important;
+	}
+}
 .bold {
 	font-weight: bold;
 }
@@ -79,9 +79,10 @@
 	border-radius: 10px;
 }
 
-.matrix {
-	&__container {
+
+	.container {
 		display: grid;
+		width: 100%;
 		grid-template-columns: 60px 1fr 60px;
 
 		&__content {
@@ -99,28 +100,29 @@
 				display: block;
 			}
 		}
-		&__sum {
-			text-align: center;
+
+	}
+	.sum {
+		text-align: center;
+		border-radius: 10px;
+		li {
+			padding: 5px;
+			display: block;
 			border-radius: 10px;
-			li {
-				padding: 5px;
+			position: relative;
+			span {
+				position: absolute;
+				content: '\00d7';
+				right: -20px;
+				top: 5px;
 				display: block;
-				border-radius: 10px;
-				position: relative;
-				span {
-					position: absolute;
-					content: '\00d7';
-					right: -20px;
-					top: 5px;
-					display: block;
-					width: 10px;
-					height: 10px;
-					color: #000;
-				}
+				width: 10px;
+				height: 10px;
+				color: #000;
 			}
 		}
 	}
-	&__avg {
+	.avg {
 		display: grid;
 		grid-template-columns: 60px 1fr 60px;
 		ul {
@@ -143,7 +145,7 @@
 			}
 		}
 	}
-}
+
 
 li:hover {
 	cursor: pointer;

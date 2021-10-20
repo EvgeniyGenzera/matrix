@@ -32,8 +32,8 @@ export const Matrix: React.FC = () => {
 					</ul>
 					<span className="bold center">Sum</span>
 				</div>
-				<div className="matrix__container">
-					<div className="matrix__container__rows">
+				<div className="container">
+					<div className="container__rows">
 						<ul style={styles.container}>
 							{Array.from(Array(matrixRows), (e, i) => {
 								return (
@@ -44,10 +44,10 @@ export const Matrix: React.FC = () => {
 							})}
 						</ul>
 					</div>
-					<ul className="matrix__container__content" style={styles.container}>
+					<ul className="container__content" style={styles.container}>
 						{matrixContent}
 					</ul>
-					<ul className="matrix__container__sum">
+					<ul className="sum">
 						<li className="black-aqua">
 							sum1<span>&#x2715;</span>
 						</li>
@@ -62,7 +62,7 @@ export const Matrix: React.FC = () => {
 						</li>
 					</ul>
 				</div>
-				<div className="matrix__avg">
+				<div className="avg">
 					<span className="bold">Avg</span>
 					<ul style={styles.container}>
 						<li className="black-aqua">Avg</li>
