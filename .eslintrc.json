@@ -33,5 +33,6 @@
 			}
 		}
 	},
-    "plugins": ["import", "@typescript-eslint", "prettier"]
+    "plugins": ["import", "@typescript-eslint", "prettier"],
+		"parser": "babel-eslint"
 }
