@@ -3,7 +3,7 @@ import React from 'react';
 export const Matrix: React.FC = () => {
 	const matrixRows = 4;
 	const matrixColumns = 4;
-	const matrixContent = [642, 965, 130, 939, 642, 753, 513, 456, 212, 341, 417, 878, 506, 393, 517, 519].map(item => (
+	const matrixContent = [642, 965, 130, 939, 643, 753, 513, 456, 212, 341, 417, 878, 506, 393, 517, 519].map(item => (
 		<li className="aqua" key={item}>
 			{item}
 		</li>
