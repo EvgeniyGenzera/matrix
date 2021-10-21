@@ -17,7 +17,7 @@
 			}
 		],
 		"react/react-in-jsx-scope": "off",
-		"react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+		"react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
 		"import/prefer-default-export": "off",
 		"import/no-extraneous-dependencies": [
 			"error",
@@ -33,6 +33,6 @@
 			}
 		}
 	},
-    "plugins": ["import", "@typescript-eslint", "prettier"],
-		"parser": "babel-eslint"
+	"plugins": ["import", "@typescript-eslint", "prettier"],
+	"parser": "babel-eslint"
 }

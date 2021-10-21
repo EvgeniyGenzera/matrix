@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState, FC, useEffect } from 'react';
+import { matrixProps } from '../types/matrixTypes';
+import { matrixGenerator, sumRows, avgColumns } from './math';
 
-export const Matrix: React.FC = () => {
-	const matrixRows = 4;
-	const matrixColumns = 4;
-	const matrixContent = [642, 965, 130, 939, 643, 753, 513, 456, 212, 341, 417, 878, 506, 393, 517, 519].map(item => (
-		<li className="aqua" key={item}>
-			{item}
+export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
+	const [matrixContent, setMatrixContent] = useState(matrixGenerator(column, row));
+	const [sum, setSum] = useState(sumRows(row, matrixContent));
+	const [avg, setAvg] = useState([avgColumns(matrixContent)]);
+	const [percent, setPercent] = useState([]);
+	const content = matrixContent.flat().map(item => (
+		<li className="aqua dark-text" key={item.id}>
+			{item.amount}
 		</li>
 	));
 	let matrixSum, matrixAvg, avgSum;
 	const styles = {
 		container: {
-			gridTemplateColumns: `repeat(${matrixRows},1fr)`,
+			gridTemplateColumns: `repeat(${column},1fr)`,
 		},
 	};
 
@@ -22,7 +26,7 @@ export const Matrix: React.FC = () => {
 				<div className="matrix__head">
 					<span className="bold">№</span>
 					<ul style={styles.container}>
-						{Array.from(Array(matrixColumns), (e, i) => {
+						{Array.from(Array(column), (e, i) => {
 							return (
 								<li className="bold" key={i}>
 									{i + 1}
@@ -35,7 +39,7 @@ export const Matrix: React.FC = () => {
 				<div className="container">
 					<div className="container__rows">
 						<ul style={styles.container}>
-							{Array.from(Array(matrixRows), (e, i) => {
+							{Array.from(Array(row), (e, i) => {
 								return (
 									<li className="bold" key={i}>
 										{i + 1}
@@ -44,31 +48,31 @@ export const Matrix: React.FC = () => {
 							})}
 						</ul>
 					</div>
+
 					<ul className="container__content" style={styles.container}>
-						{matrixContent}
+						{content}
 					</ul>
+
 					<ul className="sum">
-						<li className="black-aqua">
-							sum1<span>&#x2715;</span>
-						</li>
-						<li className="black-aqua">
-							sum2<span>&#x2715;</span>
-						</li>
-						<li className="black-aqua">
-							sum3<span>&#x2715;</span>
-						</li>
-						<li className="black-aqua">
-							sum4<span>&#x2715;</span>
-						</li>
+						{sum.map(item => {
+							return (
+								<li className="bold" key={item}>
+									{item}
+								</li>
+							);
+						})}
 					</ul>
 				</div>
 				<div className="avg">
 					<span className="bold">Avg</span>
 					<ul style={styles.container}>
-						<li className="black-aqua">Avg</li>
-						<li className="black-aqua">avg2</li>
-						<li className="black-aqua">avg3</li>
-						<li className="black-aqua">avg4</li>
+						{avg.map(item => {
+							return (
+								<li className="bold" key={item}>
+									{item}
+								</li>
+							);
+						})}
 					</ul>
 					<span className="black-aqua center">324</span>
 				</div>
