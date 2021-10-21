@@ -1,6 +1,5 @@
 import React, { useState, FC, useEffect, EventHandler, MouseEvent } from 'react';
 import { matrixProps, ICell, IMatrix } from '../types/matrixTypes';
-import { v4 as uuid } from 'uuid';
 import {
 	matrixGenerator,
 	sumRows,
