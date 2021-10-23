@@ -1,18 +1,29 @@
-import React, { useState, FC, useEffect } from 'react';
-import { matrixProps } from '../types/matrixTypes';
-import { matrixGenerator, sumRows, avgColumns } from './math';
+import React, { useState, FC, useEffect, EventHandler } from 'react';
+import { matrixProps, ICell } from '../types/matrixTypes';
+import { matrixGenerator, sumRows, avgColumns, avgSum, immediateNumbers } from './math';
 
 export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 	const [matrixContent, setMatrixContent] = useState(matrixGenerator(column, row));
 	const [sum, setSum] = useState(sumRows(row, matrixContent));
-	const [avg, setAvg] = useState([avgColumns(matrixContent)]);
+	const [avg, setAvg] = useState(avgColumns(matrixContent, column, row));
+	const [avarageSum, setAvarageSum] = useState(avgSum(avg));
+	const mouseEnter = (element: ICell) => {
+		let coloredFrames = immediateNumbers(matrixContent, cells, element.amount);
+		for (let i = 0; i < coloredFrames.length; i++) {
+			if (coloredFrames[i].id === element.id) {
+				continue;
+			} else {
+				document.getElementById(`${coloredFrames[i].id}`)?.classList.add('yellow-hover');
+			}
+		}
+	};
+	const mouseLeave = () => {
+		let coloredFrames = Array.from(document.querySelectorAll('.container__content li'));
+		for (let i = 0; i < coloredFrames.length; i++) {
+			coloredFrames[i].classList.remove('yellow-hover');
+		}
+	};
 	const [percent, setPercent] = useState([]);
-	const content = matrixContent.flat().map(item => (
-		<li className="aqua dark-text" key={item.id}>
-			{item.amount}
-		</li>
-	));
-	let matrixSum, matrixAvg, avgSum;
 	const styles = {
 		container: {
 			gridTemplateColumns: `repeat(${column},1fr)`,
@@ -50,13 +61,23 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 					</div>
 
 					<ul className="container__content" style={styles.container}>
-						{content}
+						{matrixContent.flat().map(item => (
+							<li
+								id={item.id}
+								onMouseEnter={id => mouseEnter(item)}
+								onMouseLeave={mouseLeave}
+								className="aqua dark-text"
+								key={item.id}
+							>
+								{item.amount}
+							</li>
+						))}
 					</ul>
 
 					<ul className="sum">
 						{sum.map(item => {
 							return (
-								<li className="bold" key={item}>
+								<li className="bold black-aqua" key={item}>
 									{item}
 								</li>
 							);
@@ -68,13 +89,13 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 					<ul style={styles.container}>
 						{avg.map(item => {
 							return (
-								<li className="bold" key={item}>
+								<li className="bold black-aqua" key={item}>
 									{item}
 								</li>
 							);
 						})}
 					</ul>
-					<span className="black-aqua center">324</span>
+					<span className="black-aqua center">{avarageSum}</span>
 				</div>
 			</div>
 		</>

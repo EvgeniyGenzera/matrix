@@ -21,5 +21,4 @@ export interface ICell {
 	id: number;
 	amount: number;
 }
-
 export type IMatrix = Array<Array<ICell>>;
