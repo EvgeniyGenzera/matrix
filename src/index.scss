@@ -33,7 +33,7 @@
 	font-weight: bold;
 }
 .matrix {
-	max-width: 60%;
+	max-width: 50%;
 	margin: 30px auto;
 	&__head {
 		display: grid;
@@ -92,9 +92,28 @@
 		li {
 			display: grid;
 			align-content: center;
+			position: relative;
+			z-index: 0;
 			&:hover {
 				background-color: #f87a63;
 			}
+		}
+		.percent {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			display: block;
+			background: linear-gradient(360deg, red 50%, #fff 50%);
+			color: black;
+			align-items: center;
+			justify-content: center;
+			
+		}
+		.activePercent{
+			opacity: 1;
 		}
 	}
 	&__rows {
