@@ -37,14 +37,27 @@ export const matrixGenerator = (cols: number, rows: number) => {
 	for (let i = 1; i <= cols * rows; ) {
 		let array: any[] = [];
 		for (let j = 0; j < cols; j++) {
-			array.push({ id: i, amount: Math.floor(Math.random() * (999 - 100 + 1)) + 100 });
+			array.push({
+				id: Math.random().toString(36).slice(-4),
+				amount: Math.floor(Math.random() * (999 - 100 + 1)) + 100,
+			});
 			i++;
 		}
 		mass.push(array);
 	}
 	return mass;
 };
-
+export const searchRow = (frame: ICell, array: IMatrix) => {
+	let x: number = 0;
+	array.forEach(item => {
+		item.forEach(el => {
+			if (el.id === frame.id) {
+				x = array.indexOf(item);
+			}
+		});
+	});
+	return x;
+};
 export const immediateNumbers = (array: IMatrix, cells: number, number: number) => {
 	let immediate = array.flat();
 	let newImmediate: any[] = [];

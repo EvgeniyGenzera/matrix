@@ -1,7 +1,7 @@
 import React, { useState, FC, useEffect, EventHandler, MouseEvent } from 'react';
 import { matrixProps, ICell, IMatrix } from '../types/matrixTypes';
 import { v4 as uuid } from 'uuid';
-import { matrixGenerator, sumRows, avgColumns, avgSum, immediateNumbers, percentRow } from './math';
+import { matrixGenerator, sumRows, avgColumns, avgSum, immediateNumbers, percentRow, searchRow } from './math';
 
 export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 	let styles = {
@@ -34,12 +34,18 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 		e.preventDefault();
 		let array: any[] = [];
 		for (let i = 1; i <= column; i++) {
-			array = [...array, { id: matrix.flat().length + i, amount: Math.floor(Math.random() * (999 - 100 + 1)) + 100 }];
+			array = [
+				...array,
+				{ id: Math.random().toString(36).slice(-4), amount: Math.floor(Math.random() * (999 - 100 + 1)) + 100 },
+			];
 		}
 		setMatrixContent([...matrix, array]);
 	};
 	const incrementFrame = (e: React.MouseEvent<HTMLLIElement>, array: IMatrix, item: ICell) => {
-		console.log(array);
+		array[searchRow(item, array)][array[searchRow(item, array)].indexOf(item)].amount += 1;
+		setTimeout(() => {
+			console.log(matrixContent);
+		}, 0);
 	};
 	const sumEnterHandler = (e: MouseEvent<HTMLLIElement>, columns: number, content: IMatrix) => {
 		// let frames = document.querySelectorAll(`.container__content li span`);
