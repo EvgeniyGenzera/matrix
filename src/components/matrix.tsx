@@ -1,7 +1,16 @@
 import React, { useState, FC, useEffect, EventHandler, MouseEvent } from 'react';
 import { matrixProps, ICell, IMatrix } from '../types/matrixTypes';
 import { v4 as uuid } from 'uuid';
-import { matrixGenerator, sumRows, avgColumns, avgSum, immediateNumbers, percentRow, searchRow } from './math';
+import {
+	matrixGenerator,
+	sumRows,
+	avgColumns,
+	avgSum,
+	immediateNumbers,
+	percentRow,
+	searchRow,
+	avgSumPercent,
+} from './math';
 
 export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 	let styles = {
@@ -14,6 +23,7 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 	const [percent, setPercent] = useState(percentRow(sum, matrixContent, column));
 	const [avg, setAvg] = useState(avgColumns(matrixContent, column, matrixContent.length));
 	const [avarageSum, setAvarageSum] = useState(avgSum(avg));
+	const [percentAvgSum, setPecentAvgSum] = useState(avgSumPercent(avarageSum, avg, column));
 	const mouseEnter = (element: ICell) => {
 		let coloredFrames = immediateNumbers(matrixContent, cells, element.amount);
 		for (let i = 0; i < coloredFrames.length; i++) {
@@ -43,16 +53,29 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 	};
 	const incrementFrame = (e: React.MouseEvent<HTMLLIElement>, array: IMatrix, item: ICell) => {
 		array[searchRow(item, array)][array[searchRow(item, array)].indexOf(item)].amount += 1;
-		setTimeout(() => {
-			console.log(matrixContent);
-		}, 0);
+		setMatrixContent([...array]);
 	};
 	const sumEnterHandler = (e: MouseEvent<HTMLLIElement>, columns: number, content: IMatrix) => {
-		// let frames = document.querySelectorAll(`.container__content li span`);
 		for (let i = 0; i < columns; i++) {
 			document
 				.getElementById(`${content[e.currentTarget.value][i].id}`)
 				?.firstElementChild?.classList.add('activePercent');
+		}
+	};
+	const avgMouseEnter = (columns: number) => {
+		let avg = document.querySelectorAll('.avg li span');
+		for (let i = 0; i < columns; i++) {
+			avg[i]?.classList.add('activePercent');
+		}
+	};
+	const deleteRow = (matrix: IMatrix, numberRow: number) => {
+		matrix.splice(numberRow, 1);
+		setMatrixContent([...matrix]);
+	};
+	const avgMouseLeave = () => {
+		let avg = document.querySelectorAll('.avg li span');
+		for (let i = 0; i < avg.length; i++) {
+			avg[i]?.classList.remove('activePercent');
 		}
 	};
 	const sumLeaveHandler = () => {
@@ -89,7 +112,7 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 				</div>
 				<div className="container">
 					<div className="container__rows">
-						<ul style={styles.container}>
+						<ul>
 							{Array.from(Array(matrixContent.length), (e, i) => {
 								return (
 									<li className="bold" key={i}>
@@ -119,14 +142,18 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 					<ul className="sum">
 						{sum.map((item, index) => {
 							return (
-								<li
-									value={index}
-									onMouseEnter={e => sumEnterHandler(e, column, matrixContent)}
-									onMouseLeave={() => sumLeaveHandler()}
-									className="bold black-aqua"
-									key={item}
-								>
-									{item}
+								<li key={item}>
+									<ul>
+										<li
+											value={index}
+											onMouseEnter={e => sumEnterHandler(e, column, matrixContent)}
+											onMouseLeave={sumLeaveHandler}
+											className="bold black-aqua"
+										>
+											{item}
+										</li>
+									</ul>
+									<span onClick={() => deleteRow(matrixContent, index)}>&#10060;</span>
 								</li>
 							);
 						})}
@@ -135,15 +162,18 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 				<div className="avg">
 					<span className="bold">Avg</span>
 					<ul style={styles.container}>
-						{avg.map(item => {
+						{avg.map((item, index) => {
 							return (
 								<li className="bold black-aqua" key={item}>
 									{item}
+									<span className="percent">{percentAvgSum[index]}%</span>
 								</li>
 							);
 						})}
 					</ul>
-					<span className="black-aqua center">{avarageSum}</span>
+					<span onMouseEnter={() => avgMouseEnter(column)} onMouseLeave={avgMouseLeave} className="black-aqua center">
+						{avarageSum}
+					</span>
 				</div>
 			</div>
 		</>

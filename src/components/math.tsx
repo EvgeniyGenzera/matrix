@@ -23,11 +23,21 @@ export const avgColumns = (array: IMatrix, column: number, row: number) => {
 export const avgSum = (avg: any[]) => {
 	return avg.reduce((a: number, b: number) => a + b, 0);
 };
+
+export const avgSumPercent = (sum: number, avg: any[], column: number) => {
+	let percent: any[] = [];
+	for (let j = 0; j < column; j++) {
+		percent = [...percent, Math.floor((avg[j] * 100) / sum)];
+	}
+	return percent;
+};
 export const percentRow = (sum: any[], array: IMatrix, column: number) => {
 	let percent: any[] = [];
 	for (let i = 0; i < sum.length; i++) {
 		for (let j = 0; j < column; j++) {
-			percent = [...percent, Math.floor((array[i][j].amount * 100) / sum[i])];
+			if (array[i] != undefined) {
+				percent = [...percent, Math.floor((array[i][j].amount * 100) / sum[i])];
+			}
 		}
 	}
 	return percent;
