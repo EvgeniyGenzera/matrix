@@ -20,15 +20,15 @@ export const Builder: FC<builderProps> = ({ setColumn, setRow, setCells, setVisi
 			<form className="form">
 				<p className="fields white-text">
 					Enter the number of columns
-					<input ref={columnRef} className="fields__item white" type="number" />
+					<input ref={columnRef} className="fields__item white" type="number" min="0" />
 				</p>
 				<p className="fields white-text">
 					Enter the number of rows
-					<input className="fields__item white" type="number" ref={rowRef} />
+					<input className="fields__item white" type="number" ref={rowRef} min="0" />
 				</p>
 				<p className="fields white-text">
 					Enter the number of cells
-					<input className="fields__item white" ref={cellsRef} type="number" />
+					<input className="fields__item white" ref={cellsRef} type="number" min="0" />
 				</p>
 				<button onClick={clickHandler} className="form__btn red-text">
 					Create Matrix
