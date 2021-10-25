@@ -59,7 +59,7 @@ export const Matrix: FC = () => {
 
 	const addRow = (matrix: IMatrix, columns: number, e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		let array: any[] = [];
+		let array: object[] = [];
 		for (let i = 1; i <= columns; i++) {
 			array = [
 				...array,
@@ -86,8 +86,10 @@ export const Matrix: FC = () => {
 	};
 	const deleteRow = (matrix: IMatrix, numberRow: number) => {
 		let array = [...matrix];
-		array.splice(numberRow, 1);
-		dispatch(generateMatrix(array));
+		if (matrix.length > 1) {
+			array.splice(numberRow, 1);
+			dispatch(generateMatrix(array));
+		}
 	};
 	const avgMouseLeave = () => {
 		let avg = document.querySelectorAll('.avg li span');

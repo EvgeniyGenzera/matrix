@@ -1,3 +1,4 @@
+@import './colors.scss';
 .builder {
 	width: 50%;
 	margin: 20px auto 0 auto;
@@ -11,7 +12,7 @@
 		display: block;
 		margin: 0 auto;
 		padding: 10px 20px;
-		background-color: aqua;
+		background-color: $bcg-aqua;
 		border: 20px;
 		font-weight: bold;
 		font-style: 18px;
@@ -52,7 +53,7 @@
 }
 
 .mainBtn {
-	background-color: yellow;
+	background-color: $bcg-yellow;
 	color: #26a69a;
 	border: none;
 	border-radius: 20px;
@@ -62,23 +63,23 @@
 	display: block;
 	&:hover {
 		cursor: pointer;
-		background-color: red;
-		color: black;
+		background-color: $bcg-red;
+		color: $black;
 	}
 }
 
 .black-aqua {
-	background-color: #31a59e;
-	color: white;
+	background-color: $bcg-aqua;
+	color: $white;
 }
 .aqua {
 	background-color: #61dafb;
 	margin-right: 5px;
-	color: #0f4d6b;
+	color: $color-blue;
 	border-radius: 10px;
 }
 .yellow-hover {
-	background-color: #f2e83b;
+	background-color: $bcg-yellow;
 }
 .container {
 	display: grid;
@@ -95,7 +96,7 @@
 			position: relative;
 			z-index: 0;
 			&:hover {
-				background-color: #f87a63;
+				background-color: $beige;
 			}
 		}
 		.percent {
@@ -107,7 +108,7 @@
 			opacity: 0;
 			display: block;
 			background: linear-gradient(360deg, red 50%, #fff 50%);
-			color: black;
+			color: $black;
 			align-items: center;
 			justify-content: center;
 		}
@@ -146,7 +147,7 @@
 			display: block;
 			width: 10px;
 			height: 10px;
-			color: #000;
+			color: $black;
 		}
 	}
 }
