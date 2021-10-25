@@ -1,9 +1,13 @@
 import React, { FC } from 'react';
-import { navbarProps } from '../types/matrixTypes';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { matrixSlice } from '../store/reducers/matrixSlice';
 
-export const Navbar: FC<navbarProps> = ({ setVisible, visible }) => {
+export const Navbar: FC = () => {
+	const { visible } = useAppSelector(state => state.matrixReducer);
+	const { addComponentVisible } = matrixSlice.actions;
+	const dispatch = useAppDispatch();
 	const clickHandler = () => {
-		setVisible(!visible);
+		dispatch(addComponentVisible(!visible));
 	};
 	return (
 		<nav>

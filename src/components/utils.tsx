@@ -1,16 +1,15 @@
 import { ICell, IMatrix } from '../types/matrixTypes';
 
 export const sumRows = (row: number, array: IMatrix) => {
-	let sum: any[] = [];
+	let sum: number[] = [];
 
 	array.map(item => {
 		sum.push(item.reduce((a: number, b: ICell) => a + b.amount, 0));
 	});
-
 	return sum;
 };
 export const avgColumns = (array: IMatrix, column: number, row: number) => {
-	let avg: any[] = [];
+	let avg: number[] = [];
 	for (let i = 0; i < column; i++) {
 		let sum = 0;
 		for (let j = 0; j < row; j++) {
@@ -20,19 +19,19 @@ export const avgColumns = (array: IMatrix, column: number, row: number) => {
 	}
 	return avg;
 };
-export const avgSum = (avg: any[]) => {
+export const avgSum = (avg: number[]) => {
 	return avg.reduce((a: number, b: number) => a + b, 0);
 };
 
-export const avgSumPercent = (sum: number, avg: any[], column: number) => {
-	let percent: any[] = [];
+export const avgSumPercent = (sum: number, avg: number[], column: number) => {
+	let percent: number[] = [];
 	for (let j = 0; j < column; j++) {
 		percent = [...percent, Math.floor((avg[j] * 100) / sum)];
 	}
 	return percent;
 };
-export const percentRow = (sum: any[], array: IMatrix, column: number) => {
-	let percent: any[] = [];
+export const percentRow = (sum: number[], array: IMatrix, column: number) => {
+	let percent: number[] = [];
 	for (let i = 0; i < sum.length; i++) {
 		for (let j = 0; j < column; j++) {
 			if (array[i] != undefined) {
@@ -45,7 +44,7 @@ export const percentRow = (sum: any[], array: IMatrix, column: number) => {
 export const matrixGenerator = (cols: number, rows: number) => {
 	let mass: any[] = [];
 	for (let i = 1; i <= cols * rows; ) {
-		let array: any[] = [];
+		let array: object[] = [];
 		for (let j = 0; j < cols; j++) {
 			array.push({
 				id: Math.random().toString(36).slice(-4),
@@ -70,7 +69,7 @@ export const searchRow = (frame: ICell, array: IMatrix) => {
 };
 export const immediateNumbers = (array: IMatrix, cells: number, number: number) => {
 	let immediate = array.flat();
-	let newImmediate: any[] = [];
+	let newImmediate: ICell[] = [];
 	for (let i = 0; i < cells; i++) {
 		newImmediate = [
 			...newImmediate,
