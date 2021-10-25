@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, FC } from 'react';
+import { Navbar } from './components/navbar';
+import { Builder } from './components/builder';
+import { Matrix } from './components/matrix';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: FC = () => {
+	const [row, setRow] = useState(0);
+	const [column, setColumn] = useState(0);
+	const [cells, setCells] = useState(0);
+	const [visible, setVisible] = useState(true);
+	return (
+		<>
+			<Navbar setVisible={setVisible} visible={visible} />
+			{visible && <Builder setColumn={setColumn} setRow={setRow} setCells={setCells} setVisible={setVisible} />}
+			{!visible && <Matrix row={row} column={column} cells={cells} />}
+		</>
+	);
+};
 
 export default App;
