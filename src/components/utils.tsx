@@ -21,6 +21,7 @@ export const avgColumns = (array: IMatrix, column: number, row: number) => {
 	return avg;
 };
 export const avgSum = (avg: any[]) => {
+	// console.log(avg);
 	return avg.reduce((a: number, b: number) => a + b, 0);
 };
 
@@ -32,6 +33,7 @@ export const avgSumPercent = (sum: number, avg: any[], column: number) => {
 	return percent;
 };
 export const percentRow = (sum: any[], array: IMatrix, column: number) => {
+	console.log(sum);
 	let percent: any[] = [];
 	for (let i = 0; i < sum.length; i++) {
 		for (let j = 0; j < column; j++) {

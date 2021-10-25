@@ -1,17 +1,22 @@
 import React, { FC, useRef } from 'react';
-import { builderProps } from '../types/matrixTypes';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { matrixSlice } from '../store/reducers/matrixSlice';
+import { matrixGenerator } from './utils';
 
-export const Builder: FC<builderProps> = ({ setColumn, setRow, setCells, setVisible }) => {
+export const Builder: FC = () => {
+	const { rows, columns, visible } = useAppSelector(state => state.matrixReducer);
+	const { generateMatrix, addColumn, addRow, addCells, addComponentVisible } = matrixSlice.actions;
 	const columnRef = useRef<HTMLInputElement>(null);
 	const rowRef = useRef<HTMLInputElement>(null);
+	const dispatch = useAppDispatch();
 	const cellsRef = useRef<HTMLInputElement>(null);
 	const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-
-		setColumn(Number(columnRef.current?.value) || 0);
-		setRow(Number(rowRef.current?.value) || 0);
-		setCells(Number(cellsRef.current?.value) || 0);
-		setVisible(false);
+		dispatch(addRow(Number(rowRef.current?.value)));
+		dispatch(addColumn(Number(columnRef.current?.value)));
+		dispatch(addCells(Number(cellsRef.current?.value)));
+		dispatch(addComponentVisible(!visible));
+		dispatch(generateMatrix(matrixGenerator(Number(columnRef.current?.value), Number(rowRef.current?.value))));
 	};
 
 	return (

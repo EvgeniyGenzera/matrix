@@ -1,5 +1,8 @@
 import React, { useState, FC, useEffect, EventHandler, MouseEvent } from 'react';
-import { matrixProps, ICell, IMatrix } from '../types/matrixTypes';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { matrixSlice } from '../store/reducers/matrixSlice';
+import { ICell, IMatrix } from '../types/matrixTypes';
+
 import {
 	matrixGenerator,
 	sumRows,
@@ -9,22 +12,27 @@ import {
 	percentRow,
 	searchRow,
 	avgSumPercent,
-} from './math';
+} from './utils';
 
-export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
+export const Matrix: FC = () => {
+	const { generateMatrix, rowSum, addAvarageSum, addAvg, addPercent, addPercentAvgSum } = matrixSlice.actions;
+	const { matrix, columns, rows, cells, percent, sum, avg, avarageSum, percentAvgSum, visible } = useAppSelector(
+		state => state.matrixReducer
+	);
+	const dispatch = useAppDispatch();
 	let styles = {
 		container: {
-			gridTemplateColumns: `repeat(${column},1fr)`,
+			gridTemplateColumns: `repeat(${columns},1fr)`,
 		},
 	};
-	const [matrixContent, setMatrixContent] = useState(matrixGenerator(column, row));
-	const [sum, setSum] = useState(sumRows(row, matrixContent));
-	const [percent, setPercent] = useState(percentRow(sum, matrixContent, column));
-	const [avg, setAvg] = useState(avgColumns(matrixContent, column, matrixContent.length));
-	const [avarageSum, setAvarageSum] = useState(avgSum(avg));
-	const [percentAvgSum, setPecentAvgSum] = useState(avgSumPercent(avarageSum, avg, column));
+	// const [matrixContent, setMatrixContent] = useState(matrixGenerator(columns, row));
+	// const [sum, setSum] = useState(sumRows(rows, matrix));
+	// const [percent, setPercent] = useState(percentRow(sum, matrix, columns));
+	// const [avg, setAvg] = useState(avgColumns(matrix, columns, matrix.length));
+	// const [avarageSum, setAvarageSum] = useState(avgSum(avg));
+	// const [percentAvgSum, setPecentAvgSum] = useState(avgSumPercent(avarageSum, avg, columns));
 	const mouseEnter = (element: ICell) => {
-		let coloredFrames = immediateNumbers(matrixContent, cells, element.amount);
+		let coloredFrames = immediateNumbers(matrix, cells, element.amount);
 		for (let i = 0; i < coloredFrames.length; i++) {
 			if (coloredFrames[i].id === element.id) {
 				continue;
@@ -34,42 +42,47 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 		}
 	};
 	useEffect(() => {
-		setPercent(percentRow(sum, matrixContent, column));
-		setAvg(avgColumns(matrixContent, column, matrixContent.length));
-		setSum(sumRows(row, matrixContent));
-		setAvarageSum(avgSum(avg));
-	}, [matrixContent]);
-	const addRow = (matrix: IMatrix, column: number, e: React.MouseEvent<HTMLButtonElement>) => {
+		dispatch(rowSum(sumRows(rows, matrix)));
+		dispatch(addPercent(percentRow(sum, matrix, columns)));
+		dispatch(addAvg(avgColumns(matrix, columns, matrix.length)));
+		console.log(avg);
+		dispatch(addAvarageSum(avgSum(avg)));
+		dispatch(addPercentAvgSum(avgSumPercent(avarageSum, avg, columns)));
+	}, [matrix]);
+	const addRow = (matrix: IMatrix, columns: number, e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		let array: any[] = [];
-		for (let i = 1; i <= column; i++) {
+		for (let i = 1; i <= columns; i++) {
 			array = [
 				...array,
 				{ id: Math.random().toString(36).slice(-4), amount: Math.floor(Math.random() * (999 - 100 + 1)) + 100 },
 			];
 		}
-		setMatrixContent([...matrix, array]);
+		// setmatrix([...matrix, array]);
+		dispatch(generateMatrix(array));
 	};
 	const incrementFrame = (e: React.MouseEvent<HTMLLIElement>, array: IMatrix, item: ICell) => {
 		array[searchRow(item, array)][array[searchRow(item, array)].indexOf(item)].amount += 1;
-		setMatrixContent([...array]);
+		// setMatrixContent([...array]);
+		dispatch(generateMatrix(array));
 	};
-	const sumEnterHandler = (e: MouseEvent<HTMLLIElement>, columns: number, content: IMatrix) => {
-		for (let i = 0; i < columns; i++) {
+	const sumEnterHandler = (e: MouseEvent<HTMLLIElement>, columnss: number, content: IMatrix) => {
+		for (let i = 0; i < columnss; i++) {
 			document
 				.getElementById(`${content[e.currentTarget.value][i].id}`)
 				?.firstElementChild?.classList.add('activePercent');
 		}
 	};
-	const avgMouseEnter = (columns: number) => {
+	const avgMouseEnter = (columnss: number) => {
 		let avg = document.querySelectorAll('.avg li span');
-		for (let i = 0; i < columns; i++) {
+		for (let i = 0; i < columnss; i++) {
 			avg[i]?.classList.add('activePercent');
 		}
 	};
 	const deleteRow = (matrix: IMatrix, numberRow: number) => {
 		matrix.splice(numberRow, 1);
-		setMatrixContent([...matrix]);
+		// setmatrix([...matrix]);
+		dispatch(generateMatrix(matrix));
 	};
 	const avgMouseLeave = () => {
 		let avg = document.querySelectorAll('.avg li span');
@@ -92,14 +105,17 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 
 	return (
 		<>
-			<button className="mainBtn" onClick={e => addRow(matrixContent, column, e)}>
+			<button className="mainBtn" onClick={e => addRow(matrix, columns, e)}>
 				Add row
 			</button>
+			{/* <button className="mainBtn" onClick={e => dispatch(generateMatrix(matrixGenerator(columns, row)))}>
+				TEST BTN
+			</button> */}
 			<div className="matrix">
 				<div className="matrix__head">
 					<span className="bold">№</span>
 					<ul style={styles.container}>
-						{Array.from(Array(column), (e, i) => {
+						{Array.from(Array(columns), (e, i) => {
 							return (
 								<li className="bold" key={i}>
 									{i + 1}
@@ -112,7 +128,7 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 				<div className="container">
 					<div className="container__rows">
 						<ul>
-							{Array.from(Array(matrixContent.length), (e, i) => {
+							{Array.from(Array(matrix.length), (e, i) => {
 								return (
 									<li className="bold" key={i}>
 										{i + 1}
@@ -123,14 +139,14 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 					</div>
 
 					<ul className="container__content" style={styles.container}>
-						{matrixContent.flat().map((item, index) => (
+						{matrix.flat().map((item, index) => (
 							<li
-								id={item.id}
+								id={`${item.id}`}
 								onMouseEnter={id => mouseEnter(item)}
 								onMouseLeave={mouseLeave}
 								className="aqua dark-text active-content"
 								key={item.id}
-								onClick={e => incrementFrame(e, matrixContent, item)}
+								onClick={e => incrementFrame(e, matrix, item)}
 							>
 								{item.amount}
 								<span className="percent">{percent[index] + '%'}</span>
@@ -145,14 +161,14 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 									<ul>
 										<li
 											value={index}
-											onMouseEnter={e => sumEnterHandler(e, column, matrixContent)}
+											onMouseEnter={e => sumEnterHandler(e, columns, matrix)}
 											onMouseLeave={sumLeaveHandler}
 											className="bold black-aqua"
 										>
 											{item}
 										</li>
 									</ul>
-									<span onClick={() => deleteRow(matrixContent, index)}>&#10060;</span>
+									<span onClick={() => deleteRow(matrix, index)}>&#10060;</span>
 								</li>
 							);
 						})}
@@ -170,7 +186,7 @@ export const Matrix: FC<matrixProps> = ({ column, row, cells }) => {
 							);
 						})}
 					</ul>
-					<span onMouseEnter={() => avgMouseEnter(column)} onMouseLeave={avgMouseLeave} className="black-aqua center">
+					<span onMouseEnter={() => avgMouseEnter(columns)} onMouseLeave={avgMouseLeave} className="black-aqua center">
 						{avarageSum}
 					</span>
 				</div>
