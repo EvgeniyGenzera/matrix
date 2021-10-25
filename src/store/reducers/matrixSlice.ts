@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IMatrix } from '../../types/matrixTypes';
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
+import { searchRow } from '../../components/utils';
+import { IMatrix, ICell } from '../../types/matrixTypes';
 
 interface MatrixState {
 	matrix: IMatrix;
@@ -59,6 +60,16 @@ export const matrixSlice = createSlice({
 		},
 		addComponentVisible(state, action: PayloadAction<boolean>) {
 			state.visible = action.payload;
+		},
+		increment(state, action: PayloadAction<ICell>) {
+			state.matrix.forEach(item =>
+				item.forEach(el => {
+					if (el.id === action.payload.id) {
+						el.amount += 1;
+					}
+					return el;
+				})
+			);
 		},
 	},
 });

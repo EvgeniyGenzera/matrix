@@ -15,7 +15,8 @@ import {
 } from './utils';
 
 export const Matrix: FC = () => {
-	const { generateMatrix, rowSum, addAvarageSum, addAvg, addPercent, addPercentAvgSum } = matrixSlice.actions;
+	const { generateMatrix, increment, rowSum, addAvarageSum, addAvg, addPercent, addPercentAvgSum } =
+		matrixSlice.actions;
 	const { matrix, columns, rows, cells, percent, sum, avg, avarageSum, percentAvgSum, visible } = useAppSelector(
 		state => state.matrixReducer
 	);
@@ -43,12 +44,19 @@ export const Matrix: FC = () => {
 	};
 	useEffect(() => {
 		dispatch(rowSum(sumRows(rows, matrix)));
-		dispatch(addPercent(percentRow(sum, matrix, columns)));
 		dispatch(addAvg(avgColumns(matrix, columns, matrix.length)));
-		console.log(avg);
-		dispatch(addAvarageSum(avgSum(avg)));
-		dispatch(addPercentAvgSum(avgSumPercent(avarageSum, avg, columns)));
 	}, [matrix]);
+
+	useEffect(() => {
+		dispatch(addPercent(percentRow(sum, matrix, columns)));
+	}, [sum]);
+	useEffect(() => {
+		dispatch(addAvarageSum(avgSum(avg)));
+	}, [avg]);
+	useEffect(() => {
+		dispatch(addPercentAvgSum(avgSumPercent(avarageSum, avg, columns)));
+	}, [avarageSum]);
+
 	const addRow = (matrix: IMatrix, columns: number, e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		let array: any[] = [];
@@ -58,13 +66,10 @@ export const Matrix: FC = () => {
 				{ id: Math.random().toString(36).slice(-4), amount: Math.floor(Math.random() * (999 - 100 + 1)) + 100 },
 			];
 		}
-		// setmatrix([...matrix, array]);
-		dispatch(generateMatrix(array));
+		dispatch(generateMatrix([...matrix, array]));
 	};
 	const incrementFrame = (e: React.MouseEvent<HTMLLIElement>, array: IMatrix, item: ICell) => {
-		array[searchRow(item, array)][array[searchRow(item, array)].indexOf(item)].amount += 1;
-		// setMatrixContent([...array]);
-		dispatch(generateMatrix(array));
+		dispatch(increment(item));
 	};
 	const sumEnterHandler = (e: MouseEvent<HTMLLIElement>, columnss: number, content: IMatrix) => {
 		for (let i = 0; i < columnss; i++) {
@@ -80,9 +85,9 @@ export const Matrix: FC = () => {
 		}
 	};
 	const deleteRow = (matrix: IMatrix, numberRow: number) => {
-		matrix.splice(numberRow, 1);
-		// setmatrix([...matrix]);
-		dispatch(generateMatrix(matrix));
+		let array = [...matrix];
+		array.splice(numberRow, 1);
+		dispatch(generateMatrix(array));
 	};
 	const avgMouseLeave = () => {
 		let avg = document.querySelectorAll('.avg li span');
@@ -108,9 +113,6 @@ export const Matrix: FC = () => {
 			<button className="mainBtn" onClick={e => addRow(matrix, columns, e)}>
 				Add row
 			</button>
-			{/* <button className="mainBtn" onClick={e => dispatch(generateMatrix(matrixGenerator(columns, row)))}>
-				TEST BTN
-			</button> */}
 			<div className="matrix">
 				<div className="matrix__head">
 					<span className="bold">№</span>
